@@ -29,17 +29,22 @@ Because the characters are part of an emergent story (hopefully), they will chan
 
 class Character(object):
     def __init__(self, role, crew_reference):
+
+        # randomly generates a name from name lists and ensures no duplicates
+
         self.name = ""
         self.name_val_1 = random.randint(0, len(first_names)-1)
         self.name_val_2 = random.randint(0, len(last_names)-1)
         self.name = first_names.pop(self.name_val_1) + " " + last_names.pop(self.name_val_2)
+
         self.role = role.lower()
         self.role_description = ""
-        self.traits = []
-
         self.role_description = role_description[self.role]
+
+        self.traits = []
         self.traits = role_trait_base[self.role]
 
+        # generate traits using the role_trait_base as a guideline
         for i in range(len(self.traits)):
             self.traits[i] = self.traits[i] + random.randint(1, 2)
 
@@ -49,6 +54,8 @@ class Character(object):
         self.SCIENCE = self.traits[3]
         self.LEADERSHIP = self.traits[4]
         self.CHARISMA = self.traits[5]
+
+        # beginning of relationship system
 
         self.opinion = {}
         for role in crew_reference:
@@ -64,8 +71,12 @@ class Character(object):
 
         self.strain = 0
 
+    # The unambiguous representation should be name + role + what the role does + their specific stats
     def __repr__(self):
-        return self.name + ": " + self.role.capitalize() + " - " + self.role_description + ". Stats: " + str(self.traits) + '\n'
+        return (self.name + ": " + self.role.capitalize() + " - " + self.role_description + ". Stats: "
+                + str(self.traits) + '\n')
+
+    # The following methods are all for checking and changing relationship values
 
     def check_rel(self, other):
         if self.opinion[other] == 99:
@@ -114,6 +125,8 @@ class Ship:
     def system_status(self):
         for item in self.system_stats.keys():
             print (str(self.system_stats[item]) + "% : " + item)
+
+# heavily under construction
 
 
 class MainGame:
